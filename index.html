@@ -1,206 +1,173 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050505">
-<title>Vijay The Trader | XAU/USD Gold Dashboard</title>
+<title>Vijay The Trader | XAU/USD Live Dashboard</title>
 <style>
-:root{--gold:#f3c33e;--gold2:#a97912;--green:#00d889;--red:#ff4545;--muted:#c4c4c4;--panel:#050607}
+:root{--gold:#f4c542;--gold2:#a97810;--bg:#030405;--panel:#07090b;--muted:#a9b0b8;--green:#00d79a;--red:#ff4d5c;--blue:#39a9ff}
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#030303;color:#f6f6f6;font-family:Arial,Helvetica,sans-serif}
-body{background:
- radial-gradient(ellipse at 8% 0%,rgba(195,135,12,.18),transparent 28%),
- radial-gradient(ellipse at 90% 40%,rgba(167,112,4,.07),transparent 35%),#030303;
- overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
- background:repeating-linear-gradient(135deg,transparent 0 95px,rgba(244,190,39,.025) 96px 98px)}
-.wrap{position:relative;z-index:1;width:min(100%,520px);margin:0 auto;padding:12px 12px 18px}
-header{display:flex;align-items:center;gap:9px;min-height:82px;border-bottom:3px solid var(--gold);
- box-shadow:0 5px 13px -9px var(--gold);padding:3px 1px 13px}
-.bull{font-size:43px;filter:drop-shadow(0 0 7px #c58b16);line-height:1}
-.brand{flex:1;min-width:0}
-.brand-name{font-size:clamp(17px,5vw,25px);font-weight:1000;font-style:italic;letter-spacing:-.8px;white-space:nowrap}
-.brand-name span{color:var(--gold)}
-.tagline{font-size:9px;letter-spacing:3px;text-align:center;margin-top:7px;color:#eee;white-space:nowrap}
-.livebox{text-align:center;min-width:68px}
-.live{background:#f01420;color:white;font-size:12px;font-weight:900;border-radius:20px;padding:7px 9px;box-shadow:0 0 16px #f0142070;white-space:nowrap}
-.live small{display:block;font-size:9px;background:none;box-shadow:none;margin-top:8px;line-height:1.4}
-.pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;margin-right:4px;animation:pulse 1.2s infinite}
-@keyframes pulse{50%{opacity:.3}}
-.goldline{height:3px;margin:12px 4px 14px;background:linear-gradient(90deg,transparent,var(--gold),#fff0a0,var(--gold),transparent);border-radius:4px}
-.panel{border:1.5px solid var(--gold);border-radius:12px;background:linear-gradient(135deg,rgba(9,9,8,.97),rgba(0,0,0,.97));
- box-shadow:0 0 8px #d69b2040,inset 0 0 13px #e4aa1707;margin-bottom:12px;overflow:hidden}
-.quote{padding:16px 13px;display:grid;grid-template-columns:1.45fr .85fr;gap:12px;min-height:165px}
-.quote-left{min-width:0;display:flex;flex-direction:column;justify-content:center}
-.asset-title{display:flex;align-items:center;gap:9px}
-.bars{font-size:35px;filter:drop-shadow(0 0 5px #efbd35)}
-.pair{font-size:clamp(24px,7.5vw,35px);font-weight:900;white-space:nowrap}
-.subtitle{color:var(--gold);font-size:clamp(13px,4vw,17px);font-weight:700;letter-spacing:.4px;margin:3px 0 14px 4px;white-space:nowrap}
-.price{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:4px;margin:1px 0 7px 3px}
-.change{font-size:clamp(14px,4vw,19px);font-weight:800;color:var(--green);white-space:nowrap}
-.ohlc{border-left:1px solid var(--gold2);padding-left:12px;display:flex;flex-direction:column;justify-content:space-around}
-.ohlc div{border-bottom:1px solid #555;padding:3px 0 7px;font-size:11px}
-.ohlc div:last-child{border:0}
-.ohlc b{display:block;text-align:right;font-size:16px;letter-spacing:2px;margin-top:4px;color:#eee}
-.session{display:grid;grid-template-columns:1fr 1fr 1fr;padding:12px 6px}
-.sess{padding:3px 7px;border-right:1px solid #8f6a1e;min-width:0}
-.sess:last-child{border:0}
-.sesshead{font-size:10px;font-weight:800;line-height:1.35;display:flex;align-items:center;gap:5px}
-.sicon{font-size:19px;color:var(--gold)}
-.sess p{font-size:10px;line-height:1.5;color:#eee;margin:7px 0 5px}
-.status{font-size:10px;white-space:nowrap}
-.clock{font-size:16px;font-weight:900;white-space:nowrap;margin-top:7px}
-.date{font-size:10px;color:#ddd;margin-top:7px}
-.chart-panel{border:1.5px solid var(--gold);border-radius:12px;overflow:hidden;margin-bottom:12px;box-shadow:0 0 8px #d69b2040;background:#05080c}
-.chart-top{height:43px;display:flex;align-items:center;justify-content:space-between;padding:0 11px;border-bottom:1px solid #393939;font-size:14px;font-weight:800}
-.chart-top .tv{font-size:12px;color:#fff}
-.chart-holder{height:clamp(330px,95vw,480px);width:100%;background:#05080c}
+html,body{margin:0;min-height:100%;background:var(--bg);color:#f5f5f5;font-family:Arial,Helvetica,sans-serif}
+body{background:radial-gradient(ellipse at 50% 0,#241a06 0,transparent 360px),#030405}
+.wrap{width:100%;max-width:480px;margin:0 auto;padding:8px 9px 15px}
+header{display:flex;align-items:center;gap:8px;padding:5px 2px 10px;border-bottom:1px solid #6d5316}
+.menu{border:1px solid #5e4a1d;border-radius:8px;padding:7px 9px;color:var(--gold);font-size:20px}
+.logo{font-size:25px;color:var(--gold);font-weight:900;text-shadow:0 0 12px #f4c54255}
+.brand{flex:1;min-width:0;font-size:clamp(14px,4vw,20px);font-weight:900;font-style:italic;white-space:nowrap}
+.brand span{color:var(--gold)}
+.tag{font-size:8px;letter-spacing:2px;text-align:center;margin-top:4px;color:#d7d7d7}
+.live{font-size:10px;font-weight:800;background:#ed1426;border-radius:20px;padding:7px 9px;white-space:nowrap}
+.live:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:white;margin-right:4px}
+.panel{border:1px solid var(--gold);border-radius:11px;background:linear-gradient(135deg,#0c0d0e,#030303 70%);margin-top:9px;overflow:hidden;box-shadow:0 0 8px #f4c54216}
+.hero{display:grid;grid-template-columns:86px 1fr;gap:8px;align-items:center;padding:12px}
+.bull{font-size:66px;text-align:center;filter:drop-shadow(0 0 10px #f4c54255);line-height:1}
+h1{font-size:clamp(22px,6vw,31px);margin:0;letter-spacing:.3px}
+.goldline{margin-top:3px;color:var(--gold);font-size:13px;font-weight:800}
+.herosub{font-size:10px;color:#c8c8c8;margin-top:6px}
+.quote{border-left:1px solid #80651d;padding-left:9px;text-align:center;font-size:12px;font-style:italic;color:var(--gold);line-height:1.45}
+.quote small{display:block;color:#ddd;font-size:9px;font-style:normal;margin-top:4px}
+.sessions{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.session{padding:10px 11px;border-right:1px solid #493a16;min-width:0}
+.session:nth-child(2){border-right:0}
+.session-head{font-size:10px;color:#eee;font-weight:800;display:flex;align-items:center;gap:6px}
+.flag{font-size:19px}
+.session-time{font-size:12px;font-weight:bold;margin-top:5px;color:#fff}
+.session-status{font-size:10px;margin-top:5px;font-weight:bold}
+.session-status.open{color:var(--green)}.session-status.closed{color:#ffbd42}
+.ist{padding:9px 11px;border-top:1px solid #392e14;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.ist label{font-size:10px;color:var(--muted)}
+.ist strong{font-size:13px;color:var(--gold)}
+.ist small{font-size:9px;color:#b7b7b7}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 11px;border-bottom:1px solid #28231a;font-size:12px;font-weight:800}
+.pill{font-size:9px;color:var(--gold);border:1px solid #66501c;border-radius:20px;padding:4px 7px;white-space:nowrap}
+.chart{height:340px;width:100%;background:#05080b}
 .tradingview-widget-container,.tradingview-widget-container__widget{height:100%;width:100%}
 .tradingview-widget-container iframe{border:0!important}
-.chart-note{font-size:9px;color:#aaa;line-height:1.5;padding:7px 10px;border-top:1px solid #252525}
-.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:12px}
-.tile{border:1.5px solid var(--gold);border-radius:10px;min-height:105px;text-align:center;padding:10px 3px 8px;background:linear-gradient(145deg,#080808,#020202);box-shadow:0 0 7px #d69b2030}
-.tile .ico{font-size:24px;color:var(--gold);text-shadow:0 0 8px #d69b20}
-.tile .label{font-size:10px;margin-top:7px}
-.tile .value{font-size:16px;font-weight:900;color:var(--green);margin-top:8px}
-.tile .small{font-size:9px;color:#ddd;margin-top:4px;line-height:1.3}
-.levels{text-align:left;padding-left:5px;font-size:9px;line-height:1.65}
-.bottom-cards{display:grid;grid-template-columns:1.5fr 1fr;gap:7px;margin-bottom:12px}
-.quote-card{display:flex;align-items:center;gap:10px;padding:12px 9px;min-height:86px}
-.goldstack{font-size:35px}
-.quote-mark{font-size:32px;color:var(--gold);font-weight:900}
-.motto{font-size:12px;line-height:1.5}
-.signature{color:var(--gold);text-align:right;font-size:10px;margin-top:5px}
-.subscribe{text-align:center;padding:12px 5px;display:flex;flex-direction:column;justify-content:center;gap:5px}
-.subscribe a{color:#ff313b;font-weight:900;text-decoration:none;font-size:14px}
-.subscribe small{font-size:10px;line-height:1.4}
-footer{display:flex;justify-content:space-around;align-items:center;gap:4px;color:#eee;font-size:10px;padding:7px 0 3px;flex-wrap:wrap}
-footer span{white-space:nowrap}
-footer .sig{color:var(--gold);font-family:cursive;font-size:15px;font-style:italic}
-.disclaimer{color:#777;font-size:9px;text-align:center;line-height:1.5;margin-top:8px}
-@media(max-width:360px){
- .wrap{padding:8px}.bull{font-size:33px}.livebox{min-width:58px}.live{font-size:10px;padding:6px}
- .quote{padding:12px 8px;gap:8px}.ohlc{padding-left:8px}.ohlc div{font-size:10px}
- .sess{padding:3px 4px}.sesshead{font-size:9px}.sess p{font-size:9px}
- .tile .label{font-size:9px}.tile .value{font-size:14px}.chart-holder{height:350px}
-}
+.chart-note{font-size:9px;line-height:1.45;color:#9ba1a8;padding:7px 9px;border-top:1px solid #222}
+.meter-wrap{padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.meter{border:1px solid #2d392f;border-radius:9px;padding:10px;background:#050c09}
+.meter.red{border-color:#51252a;background:#100608}
+.meter-title{font-size:11px;font-weight:800}
+.meter-val{font-size:20px;font-weight:900;margin-top:8px;color:var(--green)}
+.red .meter-val{color:var(--red)}
+.meter small{font-size:9px;line-height:1.45;color:#c1c1c1;display:block;margin-top:5px}
+.zone-note{font-size:10px;line-height:1.5;color:#d7d7d7;padding:0 11px 11px}
+.learn{padding:10px 11px}
+.learn-title{font-size:12px;font-weight:800;color:var(--gold);margin-bottom:7px}
+.learn p{font-size:11px;line-height:1.5;color:#d1d1d1;margin:5px 0}
+.learn b{color:#fff}
+footer{text-align:center;font-size:9px;line-height:1.6;color:#8e949b;padding:12px 4px}
+footer strong{color:var(--gold)}
+@media(max-width:350px){.wrap{padding:6px}.hero{grid-template-columns:62px 1fr;padding:9px}.bull{font-size:48px}.quote{display:none}.chart{height:290px}.session{padding:9px 7px}.session-head{font-size:9px}.session-time{font-size:11px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <div class="bull" aria-hidden="true">🐂</div>
-    <div class="brand">
-      <div class="brand-name">VIJAY <span>THE TRADER</span></div>
-      <div class="tagline">LEARN&nbsp; | &nbsp;ANALYSE&nbsp; | &nbsp;GROW</div>
-    </div>
-    <div class="livebox">
-      <div class="live"><i class="pulse"></i>LIVE</div>
-      <small>MARKET<br><b style="color:var(--gold)">DASHBOARD</b></small>
-    </div>
-  </header>
-  <div class="goldline"></div>
+<header>
+  <div class="menu" aria-hidden="true">☰</div>
+  <div class="logo">♛<br>VT</div>
+  <div class="brand">VIJAY <span>THE TRADER</span><div class="tag">LEARN&nbsp; | &nbsp;ANALYSE&nbsp; | &nbsp;GROW</div></div>
+  <div class="live">LIVE</div>
+</header>
 
-  <section class="panel quote">
-    <div class="quote-left">
-      <div class="asset-title"><span class="bars">▰</span><div class="pair">XAU/USD</div></div>
-      <div class="subtitle">GOLD / US DOLLAR</div>
-      <div class="price" id="price">— — — —</div>
-      <div class="change" id="change">↗ Price shown in chart below</div>
-    </div>
-    <div class="ohlc">
-      <div>HIGH <b id="high">— — —</b></div>
-      <div>LOW <b id="low">— — —</b></div>
-      <div>OPEN <b id="open">— — —</b></div>
-      <div>PREV. CLOSE <b id="close">— — —</b></div>
-    </div>
-  </section>
+<section class="panel hero">
+  <div class="bull" aria-label="Gold bull">🐂</div>
+  <div>
+    <h1>XAU/USD</h1>
+    <div class="goldline">GOLD / US DOLLAR</div>
+    <div class="herosub">Real embedded market chart · 15m</div>
+  </div>
+  <div class="quote">“Discipline Today,<br>Freedom Tomorrow”<small>— Vijay The Trader</small></div>
+</section>
 
-  <section class="panel session">
-    <div class="sess">
-      <div class="sesshead"><span class="sicon">◎</span> LONDON<br>SESSION</div>
-      <p>Session times change with daylight saving.</p>
-      <div class="status" id="london"><span style="color:#f3c33e">●</span> Check local session</div>
+<section class="panel">
+  <div class="section-head"><span>🌍 MARKET SESSIONS</span><span class="pill">LOCAL TIME + DST</span></div>
+  <div class="sessions">
+    <div class="session">
+      <div class="session-head"><span class="flag">🇬🇧</span> LONDON</div>
+      <div class="session-time" id="londonTime">Loading…</div>
+      <div class="session-status" id="londonStatus">Checking…</div>
     </div>
-    <div class="sess">
-      <div class="sesshead"><span class="sicon">🇺🇸</span> NEW YORK<br>SESSION</div>
-      <p>Session times change with daylight saving.</p>
-      <div class="status" id="newyork"><span style="color:#f3c33e">●</span> Check local session</div>
+    <div class="session">
+      <div class="session-head"><span class="flag">🇺🇸</span> NEW YORK</div>
+      <div class="session-time" id="newYorkTime">Loading…</div>
+      <div class="session-status" id="newYorkStatus">Checking…</div>
     </div>
-    <div class="sess">
-      <div class="sesshead"><span class="sicon">◷</span> INDIA TIME (IST)</div>
-      <div class="clock" id="clock">--:--:--</div>
-      <div class="date" id="date">Loading date…</div>
-    </div>
-  </section>
+  </div>
+  <div class="ist"><div><label>INDIA TIME (IST)</label><br><strong id="indiaTime">--:--:--</strong></div><div style="text-align:right"><small id="indiaDate">Loading date…</small><br><small id="overlap">Checking overlap…</small></div></div>
+</section>
 
-  <section class="chart-panel">
-    <div class="chart-top"><span>XAU/USD &nbsp; │ &nbsp; 15m⌄</span><span class="tv">◩ TradingView ↗</span></div>
-    <div class="chart-holder">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-        {
-          "autosize": true,
-          "symbol": "OANDA:XAUUSD",
-          "interval": "15",
-          "timezone": "Asia/Kolkata",
-          "theme": "dark",
-          "style": "1",
-          "locale": "en",
-          "withdateranges": true,
-          "hide_side_toolbar": true,
-          "allow_symbol_change": false,
-          "save_image": false,
-          "calendar": false,
-          "support_host": "https://www.tradingview.com"
-        }
-        </script>
-      </div>
+<section class="panel">
+  <div class="section-head"><span>🟡 XAU/USD · GOLD SPOT</span><span class="pill">15 MIN</span></div>
+  <div class="chart">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+      {
+        "autosize": true,
+        "symbol": "OANDA:XAUUSD",
+        "interval": "15",
+        "timezone": "Asia/Kolkata",
+        "theme": "dark",
+        "style": "1",
+        "locale": "en",
+        "withdateranges": false,
+        "hide_side_toolbar": true,
+        "allow_symbol_change": true,
+        "save_image": false,
+        "calendar": false,
+        "support_host": "https://www.tradingview.com"
+      }
+      </script>
     </div>
-    <div class="chart-note">REAL EMBEDDED CHART • Quote availability, delays and symbol access depend on TradingView and its data provider. Dashes above mean this page does not independently retrieve OHLC values.</div>
-  </section>
+  </div>
+  <div class="chart-note">Chart quotes come from the selected TradingView/provider feed; availability and delays may vary. This page does not invent a gold price.</div>
+</section>
 
-  <section class="tiles">
-    <div class="tile"><div class="ico">▥</div><div class="label">TREND</div><div class="value">—</div><div class="small">Chart only</div></div>
-    <div class="tile"><div class="ico">◎</div><div class="label">KEY LEVELS</div><div class="small levels">R1: —<br>S1: —<br>Pivot: —</div></div>
-    <div class="tile"><div class="ico">▥</div><div class="label">VOLATILITY</div><div class="value" style="color:var(--gold)">—</div><div class="small">Not calculated</div></div>
-    <div class="tile"><div class="ico">♢</div><div class="label">RISK</div><div class="value" style="font-size:13px">MANAGE</div><div class="small">Trade safe</div></div>
-  </section>
+<section class="panel">
+  <div class="section-head"><span>⚖️ BULLISH / BEARISH</span><span class="pill">NO FAKE SIGNALS</span></div>
+  <div class="meter-wrap">
+    <div class="meter"><div class="meter-title">🟢 BULLISH</div><div class="meter-val">—</div><small>Verified candle-feed connection required to calculate a real percentage.</small></div>
+    <div class="meter red"><div class="meter-title">🔴 BEARISH</div><div class="meter-val">—</div><small>Not guessed from the screenshot; no fabricated sentiment value.</small></div>
+  </div>
+  <div class="zone-note">Supply / Demand: live zones are not displayed as exact prices until a verified OHLC feed is connected. Use the chart to identify prior rejection/support areas; zones are not guaranteed signals.</div>
+</section>
 
-  <section class="bottom-cards">
-    <div class="panel quote-card">
-      <div class="goldstack">🪙</div><div>
-        <div class="quote-mark">“</div>
-        <div class="motto">Discipline Today,<br>Freedom Tomorrow</div>
-        <div class="signature">- Vijay The Trader</div>
-      </div>
-    </div>
-    <div class="panel subscribe">
-      <a href="https://www.youtube.com/" target="_blank" rel="noopener">▶ SUBSCRIBE</a>
-      <small>Vijay The Trader<br>for Live Updates 🔔</small>
-    </div>
-  </section>
+<section class="panel">
+  <div class="learn">
+    <div class="learn-title">🎓 CHART SEEKHO</div>
+    <p><b>Green candle:</b> candle period mein price open se upar close hua.</p>
+    <p><b>Red candle:</b> candle period mein price open se neeche close hua.</p>
+    <p><b>Demand:</b> area jahan price pehle buying ke saath upar gaya. <b>Supply:</b> area jahan price pehle selling ke saath neeche aaya.</p>
+  </div>
+</section>
 
-  <footer>
-    <span>◎ Gold</span><span>│ Forex</span><span>│ Crypto</span><span>│ Indices</span><span>│ Futures</span>
-  </footer>
-  <div class="disclaimer">Educational market display only. Not financial advice. This webpage does not generate or fabricate a gold price.</div>
+<footer><strong>VIJAY THE TRADER</strong><br>Discipline Today · Freedom Tomorrow<br>Educational display only · Not financial advice</footer>
 </div>
-
 <script>
-function updateIndiaClock(){
-  const now = new Date();
-  document.getElementById('clock').textContent = new Intl.DateTimeFormat('en-IN',{
-    timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true
-  }).format(now);
-  document.getElementById('date').textContent = new Intl.DateTimeFormat('en-IN',{
-    timeZone:'Asia/Kolkata',weekday:'short',day:'2-digit',month:'short',year:'numeric'
-  }).format(now);
+const fmtTime=(date,tz,opts={})=>new Intl.DateTimeFormat('en-IN',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:true,...opts}).format(date);
+const parts=(date,tz)=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:tz,weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(date).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+function sessionState(date,tz,startHour,endHour){
+ const p=parts(date,tz), mins=Number(p.hour)*60+Number(p.minute), weekday=!['Sat','Sun'].includes(p.weekday);
+ const open=weekday && mins>=startHour*60 && mins<endHour*60;
+ return {open,weekday,mins};
 }
-updateIndiaClock();
-setInterval(updateIndiaClock,1000);
+function updateClock(){
+ const now=new Date();
+ const london=sessionState(now,'Europe/London',8,17);
+ const ny=sessionState(now,'America/New_York',8,17);
+ document.getElementById('londonTime').textContent=fmtTime(now,'Europe/London')+' – '+fmtTime(new Date(now.getTime()+9*60*60*1000),'Europe/London');
+ // Display the conventional local session hours explicitly; IANA zones handle DST automatically.
+ document.getElementById('londonTime').textContent='08:00 AM – 05:00 PM local';
+ document.getElementById('newYorkTime').textContent='08:00 AM – 05:00 PM local';
+ const setStatus=(id,s)=>{const e=document.getElementById(id);e.textContent=s.open?'● OPEN':(s.weekday?'● CLOSED NOW':'● CLOSED · WEEKEND');e.className='session-status '+(s.open?'open':'closed')};
+ setStatus('londonStatus',london);setStatus('newYorkStatus',ny);
+ document.getElementById('indiaTime').textContent=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}).format(now);
+ document.getElementById('indiaDate').textContent=new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',weekday:'short',day:'2-digit',month:'short',year:'numeric'}).format(now);
+ document.getElementById('overlap').textContent=london.open&&ny.open?'London–NY overlap: OPEN':'London–NY overlap: not active';
+}
+updateClock();setInterval(updateClock,1000);
 </script>
 </body>
 </html>
