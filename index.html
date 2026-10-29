@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>Vijay The Trader | XAU/USD Gold Dashboard</title>
+<style>
+:root{--gold:#f3c33e;--gold2:#a97912;--green:#00d889;--red:#ff4545;--muted:#c4c4c4;--panel:#050607}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#030303;color:#f6f6f6;font-family:Arial,Helvetica,sans-serif}
+body{background:
+ radial-gradient(ellipse at 8% 0%,rgba(195,135,12,.18),transparent 28%),
+ radial-gradient(ellipse at 90% 40%,rgba(167,112,4,.07),transparent 35%),#030303;
+ overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+ background:repeating-linear-gradient(135deg,transparent 0 95px,rgba(244,190,39,.025) 96px 98px)}
+.wrap{position:relative;z-index:1;width:min(100%,520px);margin:0 auto;padding:12px 12px 18px}
+header{display:flex;align-items:center;gap:9px;min-height:82px;border-bottom:3px solid var(--gold);
+ box-shadow:0 5px 13px -9px var(--gold);padding:3px 1px 13px}
+.bull{font-size:43px;filter:drop-shadow(0 0 7px #c58b16);line-height:1}
+.brand{flex:1;min-width:0}
+.brand-name{font-size:clamp(17px,5vw,25px);font-weight:1000;font-style:italic;letter-spacing:-.8px;white-space:nowrap}
+.brand-name span{color:var(--gold)}
+.tagline{font-size:9px;letter-spacing:3px;text-align:center;margin-top:7px;color:#eee;white-space:nowrap}
+.livebox{text-align:center;min-width:68px}
+.live{background:#f01420;color:white;font-size:12px;font-weight:900;border-radius:20px;padding:7px 9px;box-shadow:0 0 16px #f0142070;white-space:nowrap}
+.live small{display:block;font-size:9px;background:none;box-shadow:none;margin-top:8px;line-height:1.4}
+.pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:#fff;margin-right:4px;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.goldline{height:3px;margin:12px 4px 14px;background:linear-gradient(90deg,transparent,var(--gold),#fff0a0,var(--gold),transparent);border-radius:4px}
+.panel{border:1.5px solid var(--gold);border-radius:12px;background:linear-gradient(135deg,rgba(9,9,8,.97),rgba(0,0,0,.97));
+ box-shadow:0 0 8px #d69b2040,inset 0 0 13px #e4aa1707;margin-bottom:12px;overflow:hidden}
+.quote{padding:16px 13px;display:grid;grid-template-columns:1.45fr .85fr;gap:12px;min-height:165px}
+.quote-left{min-width:0;display:flex;flex-direction:column;justify-content:center}
+.asset-title{display:flex;align-items:center;gap:9px}
+.bars{font-size:35px;filter:drop-shadow(0 0 5px #efbd35)}
+.pair{font-size:clamp(24px,7.5vw,35px);font-weight:900;white-space:nowrap}
+.subtitle{color:var(--gold);font-size:clamp(13px,4vw,17px);font-weight:700;letter-spacing:.4px;margin:3px 0 14px 4px;white-space:nowrap}
+.price{font-size:clamp(26px,8vw,38px);font-weight:900;letter-spacing:4px;margin:1px 0 7px 3px}
+.change{font-size:clamp(14px,4vw,19px);font-weight:800;color:var(--green);white-space:nowrap}
+.ohlc{border-left:1px solid var(--gold2);padding-left:12px;display:flex;flex-direction:column;justify-content:space-around}
+.ohlc div{border-bottom:1px solid #555;padding:3px 0 7px;font-size:11px}
+.ohlc div:last-child{border:0}
+.ohlc b{display:block;text-align:right;font-size:16px;letter-spacing:2px;margin-top:4px;color:#eee}
+.session{display:grid;grid-template-columns:1fr 1fr 1fr;padding:12px 6px}
+.sess{padding:3px 7px;border-right:1px solid #8f6a1e;min-width:0}
+.sess:last-child{border:0}
+.sesshead{font-size:10px;font-weight:800;line-height:1.35;display:flex;align-items:center;gap:5px}
+.sicon{font-size:19px;color:var(--gold)}
+.sess p{font-size:10px;line-height:1.5;color:#eee;margin:7px 0 5px}
+.status{font-size:10px;white-space:nowrap}
+.clock{font-size:16px;font-weight:900;white-space:nowrap;margin-top:7px}
+.date{font-size:10px;color:#ddd;margin-top:7px}
+.chart-panel{border:1.5px solid var(--gold);border-radius:12px;overflow:hidden;margin-bottom:12px;box-shadow:0 0 8px #d69b2040;background:#05080c}
+.chart-top{height:43px;display:flex;align-items:center;justify-content:space-between;padding:0 11px;border-bottom:1px solid #393939;font-size:14px;font-weight:800}
+.chart-top .tv{font-size:12px;color:#fff}
+.chart-holder{height:clamp(330px,95vw,480px);width:100%;background:#05080c}
+.tradingview-widget-container,.tradingview-widget-container__widget{height:100%;width:100%}
+.tradingview-widget-container iframe{border:0!important}
+.chart-note{font-size:9px;color:#aaa;line-height:1.5;padding:7px 10px;border-top:1px solid #252525}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:12px}
+.tile{border:1.5px solid var(--gold);border-radius:10px;min-height:105px;text-align:center;padding:10px 3px 8px;background:linear-gradient(145deg,#080808,#020202);box-shadow:0 0 7px #d69b2030}
+.tile .ico{font-size:24px;color:var(--gold);text-shadow:0 0 8px #d69b20}
+.tile .label{font-size:10px;margin-top:7px}
+.tile .value{font-size:16px;font-weight:900;color:var(--green);margin-top:8px}
+.tile .small{font-size:9px;color:#ddd;margin-top:4px;line-height:1.3}
+.levels{text-align:left;padding-left:5px;font-size:9px;line-height:1.65}
+.bottom-cards{display:grid;grid-template-columns:1.5fr 1fr;gap:7px;margin-bottom:12px}
+.quote-card{display:flex;align-items:center;gap:10px;padding:12px 9px;min-height:86px}
+.goldstack{font-size:35px}
+.quote-mark{font-size:32px;color:var(--gold);font-weight:900}
+.motto{font-size:12px;line-height:1.5}
+.signature{color:var(--gold);text-align:right;font-size:10px;margin-top:5px}
+.subscribe{text-align:center;padding:12px 5px;display:flex;flex-direction:column;justify-content:center;gap:5px}
+.subscribe a{color:#ff313b;font-weight:900;text-decoration:none;font-size:14px}
+.subscribe small{font-size:10px;line-height:1.4}
+footer{display:flex;justify-content:space-around;align-items:center;gap:4px;color:#eee;font-size:10px;padding:7px 0 3px;flex-wrap:wrap}
+footer span{white-space:nowrap}
+footer .sig{color:var(--gold);font-family:cursive;font-size:15px;font-style:italic}
+.disclaimer{color:#777;font-size:9px;text-align:center;line-height:1.5;margin-top:8px}
+@media(max-width:360px){
+ .wrap{padding:8px}.bull{font-size:33px}.livebox{min-width:58px}.live{font-size:10px;padding:6px}
+ .quote{padding:12px 8px;gap:8px}.ohlc{padding-left:8px}.ohlc div{font-size:10px}
+ .sess{padding:3px 4px}.sesshead{font-size:9px}.sess p{font-size:9px}
+ .tile .label{font-size:9px}.tile .value{font-size:14px}.chart-holder{height:350px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="bull" aria-hidden="true">🐂</div>
+    <div class="brand">
+      <div class="brand-name">VIJAY <span>THE TRADER</span></div>
+      <div class="tagline">LEARN&nbsp; | &nbsp;ANALYSE&nbsp; | &nbsp;GROW</div>
+    </div>
+    <div class="livebox">
+      <div class="live"><i class="pulse"></i>LIVE</div>
+      <small>MARKET<br><b style="color:var(--gold)">DASHBOARD</b></small>
+    </div>
+  </header>
+  <div class="goldline"></div>
+
+  <section class="panel quote">
+    <div class="quote-left">
+      <div class="asset-title"><span class="bars">▰</span><div class="pair">XAU/USD</div></div>
+      <div class="subtitle">GOLD / US DOLLAR</div>
+      <div class="price" id="price">— — — —</div>
+      <div class="change" id="change">↗ Price shown in chart below</div>
+    </div>
+    <div class="ohlc">
+      <div>HIGH <b id="high">— — —</b></div>
+      <div>LOW <b id="low">— — —</b></div>
+      <div>OPEN <b id="open">— — —</b></div>
+      <div>PREV. CLOSE <b id="close">— — —</b></div>
+    </div>
+  </section>
+
+  <section class="panel session">
+    <div class="sess">
+      <div class="sesshead"><span class="sicon">◎</span> LONDON<br>SESSION</div>
+      <p>Session times change with daylight saving.</p>
+      <div class="status" id="london"><span style="color:#f3c33e">●</span> Check local session</div>
+    </div>
+    <div class="sess">
+      <div class="sesshead"><span class="sicon">🇺🇸</span> NEW YORK<br>SESSION</div>
+      <p>Session times change with daylight saving.</p>
+      <div class="status" id="newyork"><span style="color:#f3c33e">●</span> Check local session</div>
+    </div>
+    <div class="sess">
+      <div class="sesshead"><span class="sicon">◷</span> INDIA TIME (IST)</div>
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="date" id="date">Loading date…</div>
+    </div>
+  </section>
+
+  <section class="chart-panel">
+    <div class="chart-top"><span>XAU/USD &nbsp; │ &nbsp; 15m⌄</span><span class="tv">◩ TradingView ↗</span></div>
+    <div class="chart-holder">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+        {
+          "autosize": true,
+          "symbol": "OANDA:XAUUSD",
+          "interval": "15",
+          "timezone": "Asia/Kolkata",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "withdateranges": true,
+          "hide_side_toolbar": true,
+          "allow_symbol_change": false,
+          "save_image": false,
+          "calendar": false,
+          "support_host": "https://www.tradingview.com"
+        }
+        </script>
+      </div>
+    </div>
+    <div class="chart-note">REAL EMBEDDED CHART • Quote availability, delays and symbol access depend on TradingView and its data provider. Dashes above mean this page does not independently retrieve OHLC values.</div>
+  </section>
+
+  <section class="tiles">
+    <div class="tile"><div class="ico">▥</div><div class="label">TREND</div><div class="value">—</div><div class="small">Chart only</div></div>
+    <div class="tile"><div class="ico">◎</div><div class="label">KEY LEVELS</div><div class="small levels">R1: —<br>S1: —<br>Pivot: —</div></div>
+    <div class="tile"><div class="ico">▥</div><div class="label">VOLATILITY</div><div class="value" style="color:var(--gold)">—</div><div class="small">Not calculated</div></div>
+    <div class="tile"><div class="ico">♢</div><div class="label">RISK</div><div class="value" style="font-size:13px">MANAGE</div><div class="small">Trade safe</div></div>
+  </section>
+
+  <section class="bottom-cards">
+    <div class="panel quote-card">
+      <div class="goldstack">🪙</div><div>
+        <div class="quote-mark">“</div>
+        <div class="motto">Discipline Today,<br>Freedom Tomorrow</div>
+        <div class="signature">- Vijay The Trader</div>
+      </div>
+    </div>
+    <div class="panel subscribe">
+      <a href="https://www.youtube.com/" target="_blank" rel="noopener">▶ SUBSCRIBE</a>
+      <small>Vijay The Trader<br>for Live Updates 🔔</small>
+    </div>
+  </section>
+
+  <footer>
+    <span>◎ Gold</span><span>│ Forex</span><span>│ Crypto</span><span>│ Indices</span><span>│ Futures</span>
+  </footer>
+  <div class="disclaimer">Educational market display only. Not financial advice. This webpage does not generate or fabricate a gold price.</div>
+</div>
+
+<script>
+function updateIndiaClock(){
+  const now = new Date();
+  document.getElementById('clock').textContent = new Intl.DateTimeFormat('en-IN',{
+    timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true
+  }).format(now);
+  document.getElementById('date').textContent = new Intl.DateTimeFormat('en-IN',{
+    timeZone:'Asia/Kolkata',weekday:'short',day:'2-digit',month:'short',year:'numeric'
+  }).format(now);
+}
+updateIndiaClock();
+setInterval(updateIndiaClock,1000);
+</script>
+</body>
+</html>
